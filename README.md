@@ -39,26 +39,33 @@
 ├── README.md
 ├── next.config.js
 ├── tsconfig.json       : typescript 설정 파일
-├── public              : Material Kit - React 정적 파일(추후 제거 필요)
-└── src_template        : Material Kit - React 코드(추후 제거 필요)
+├── public              : Material Kit - React 정적 파일(⚠ 추후 제거 필요)
+└── src_template        : Material Kit - React 코드(⚠ 추후 제거 필요)
 ```
 
 ## 빌드
 
+⚠ 주의 사항
+- `npm` 버전이 16이상일 경우만 정상적으로 동작한다.
+  - [axis issue](https://github.com/axios/axios/issues/5221#issuecomment-1316173282)
+
 ### 최초 빌드
 
-최초 빌드시 아래의 명령을 사용해 모듈을 다운 받아야합니다.
+최초 빌드시 아래의 명령을 사용해 모듈을 다운 받을 수 있다.
 
 - `npm install`
+
+이후 목적에 따라 아래의 커맨드를 사용한다.
 
 ### 개발용 빌드
 
 `npm run dev`
 
-### 템플릿 빌드
+### 템플릿 빌드(⚠ 추후 제거 필요)
 
 `npm run dev:template`
 
 ### 확인 방법
 
-위의 개발용 빌드의 command를 입력하면 기본적으로 `localhost:3000`로 확인할 수 있지만, 이미 `3000`포트를 사용중인 경우엔 다른 포트로 확인해야할 수도 있다.
+위의 개발용 빌드의 command를 입력하면 기본적으로 `localhost:3000`로 확인할 수 있지만, 이미 `3000`포트를 사용중인 경우엔 다른 포트로 확인해야 할 수도 있다.
+
