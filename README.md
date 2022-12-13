@@ -1,56 +1,46 @@
-# front-five
-
-사이드프로젝트
-
-애자일로 간다.
-모임 날짜 매주 토요일 오전
+# front-admin
 
 1. 주제
 
-- 캠핑 커뮤니티 + EC
+- [front-client](https://github.com/Camping-Side/camping-client)의 어드민 페이지이다.
+- [Material Kit - React](https://material-kit-react.devias.io/)을 활용해 구성한다.
 
 2. 라이브러리
 
-- [Material Kit - React](https://material-kit-react.devias.io/)
+- Material Kit - React 내장
   - React 18
   - next.js
   - 이모션
   - mui
   - chart.js
   - eslint
+- ts
+- redux-toolkit
 
 ## 폴더 구조
 
-```
-bash
-┌── .env.example
-├── .eslintrc.json
-├── .gitignore
-├── next.config.js
-├── package.json
+```bash
+
+┌── api                 : api 요청/응답 관련 모듈
+│   ├── index           : 외부에서 사용할 모듈
+│   ├── other folder    : 내부 모듈
+├── assets              : 배포시 포함시킬 리소스
+│   ├── fonts           : 폰트 관련
+│   ├── icon            : 아이콘 관련
+│   ├── style           : 스타일 관련
+│   └── ts              : 상수나 공통 함수, 유틸리티 폴더
+│        └── common
+│        └── const      : 상수
+└── components          : 공통 component 관리
+└── layout              : layout 폴더
+└── pages               : page 단위의 component 폴더
+└── reducers            : reducer를 위한 폴더
+├── package.json        : 설치된 라이브러리/패키지 정보
 ├── README.md
-├── public
-└── src
-	├── __mocks__
-	├── components
-	├── icons
-	├── lib
-	├── theme
-	├── utils
-	└── pages
-		├── 404.js
-		├── _app.js
-		├── _document.js
-		├── account.js
-		├── customers.js
-		├── index.js
-		├── index.js
-		├── products.js
-		├── register.js
-		└── settings.js
-		└── sign-in
-			├── confirm.js
-			└── index.js
+├── next.config.js
+├── tsconfig.json       : typescript 설정 파일
+├── public              : Material Kit - React 정적 파일(추후 제거 필요)
+└── src_template        : Material Kit - React 코드(추후 제거 필요)
 ```
 
 ## 빌드
@@ -63,7 +53,11 @@ bash
 
 ### 개발용 빌드
 
-command : `npm run dev`
+`npm run dev`
+
+### 템플릿 빌드
+
+`npm run dev:template`
 
 ### 확인 방법
 
