@@ -35,12 +35,12 @@
 └── layout              : layout 폴더
 └── pages               : page 단위의 component 폴더
 └── reducers            : reducer를 위한 폴더
-├── package.json					: 설치된 라이브러리/패키지 정보
+├── package.json        : 설치된 라이브러리/패키지 정보
 ├── README.md
 ├── next.config.js
-├── tsconfig.json					: typescript 설정 파일
-├── public								: Material Kit - React 정적 파일(추후 제거 필요)
-└── src_template					: Material Kit - React 코드(추후 제거 필요)
+├── tsconfig.json       : typescript 설정 파일
+├── public              : Material Kit - React 정적 파일(추후 제거 필요)
+└── src_template        : Material Kit - React 코드(추후 제거 필요)
 ```
 
 ## 빌드
