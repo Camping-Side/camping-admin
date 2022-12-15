@@ -9,15 +9,16 @@ import { AuthConsumer, AuthProvider } from '../contexts/auth-context';
 import { createEmotionCache } from '../utils/create-emotion-cache';
 import { registerChartJs } from '../utils/register-chart-js';
 import { theme } from '../theme';
+import wrapper from "../store/configureStore";
 
 registerChartJs();
 
 const clientSideEmotionCache = createEmotionCache();
 
-const App = (props) => {
+const App = (props: any) => {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
 
-  const getLayout = Component.getLayout ?? ((page) => page);
+  const getLayout = Component.getLayout ?? ((page: any) => page);
 
   return (
     <CacheProvider value={emotionCache}>
@@ -48,4 +49,4 @@ const App = (props) => {
   );
 };
 
-export default App;
+export default wrapper.withRedux(App);
