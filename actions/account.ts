@@ -3,28 +3,12 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 
 const DOMAIN = process.env.NEXT_PUBLIC_API_URL;
 
-export const checkEmailDup = createAsyncThunk(
-    "account/checkEmailDup",
-    async (data, { rejectWithValue }) => {
-        try {
-            const response = await axios.post(
-                DOMAIN + "/api/v1/accounts/checkEmailDup",
-                data
-            );
-            return response.data;
-        } catch (error: any) {
-            return rejectWithValue(error.response.data);
-        }
-    }
-);
-
-export const checkPhoneDup = createAsyncThunk(
-  "account/checkPhoneDup",
+export const getList = createAsyncThunk(
+  "account/getList",
   async (data, { rejectWithValue }) => {
     try {
-      const response = await axios.post(
-        DOMAIN + "/api/v1/accounts/checkPhoneDup",
-        data
+      const response = await axios.get(
+        DOMAIN + "/api/v1/admin/accounts?page=1&size=2"
       );
       return response.data;
     } catch (error: any) {
