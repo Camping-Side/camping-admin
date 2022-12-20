@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import PropTypes from "prop-types";
 import { format } from "date-fns";
@@ -16,17 +16,52 @@ import {
   Typography,
 } from "@mui/material";
 import { getInitials } from "../../utils/get-initials";
+import { getList } from "../../actions/account";
+import { useDispatch } from "react-redux";
 
-export const AccountList = ({ account = [], ...rest }) => {
-  const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
-  const [limit, setLimit] = useState(2);
-  const [page, setPage] = useState(1);
+type AccountData = {
+  content: [];
+  pageable: object;
+  last: boolean;
+  totalPages: number;
+  totalElements: number;
+  size: number;
+  number: number;
+  sort: object;
+  first: boolean;
+  numberOfElements: number;
+  empty: boolean;
+};
+
+type Account = {
+  id: string | never;
+  username: string;
+  phone: string;
+  email: string;
+  birth: string;
+};
+
+export const AccountList = ({
+  accountData,
+  ...rest
+}: {
+  accountData: AccountData;
+}) => {
+  const dispatch = useDispatch();
+
+  const [selectedIdList, SetSelectedIdList] = useState([]);
+
+  const [size, setSize] = useState(accountData.size);
+  const [page, setPage] = useState(accountData.number);
+  const [accountList, setAccountList] = useState(accountData.content);
 
   const handleSelectAll = (event) => {
     let newSelectedCustomerIds;
 
     if (event.target.checked) {
-      newSelectedCustomerIds = account.map((account) => account.id);
+      newSelectedCustomerIds = accountList.map(
+        (account: Account) => account.id
+      );
     } else {
       newSelectedCustomerIds = [];
     }
@@ -61,12 +96,20 @@ export const AccountList = ({ account = [], ...rest }) => {
     setSelectedCustomerIds(newSelectedCustomerIds);
   };
 
-  const handleLimitChange = (event) => {
-    setLimit(event.target.value);
+  const handleSizeChange = (
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setSize(Number(event.target.value));
   };
 
-  const handlePageChange = (event, newPage) => {
+  const handlePageChange = (event: MouseEvent | null, newPage: number) => {
     setPage(newPage);
+    dispatch(
+      getList({
+        size: size,
+        page: page,
+      })<AsyncThunkAction<any, void, AsyncThunkConfig>>
+    );
   };
 
   return (
@@ -78,32 +121,31 @@ export const AccountList = ({ account = [], ...rest }) => {
               <TableRow>
                 <TableCell padding="checkbox">
                   <Checkbox
-                    checked={selectedCustomerIds.length === account.length}
+                    checked={selectedIdList.length === accountList.length}
                     color="primary"
                     indeterminate={
-                      selectedCustomerIds.length > 0 &&
-                      selectedCustomerIds.length < account.length
+                      selectedIdList.length > 0 &&
+                      selectedIdList.length < accountList.length
                     }
                     onChange={handleSelectAll}
                   />
                 </TableCell>
-                <TableCell>Name</TableCell>
+                <TableCell>이름</TableCell>
                 <TableCell>Email</TableCell>
-                <TableCell>Location</TableCell>
-                <TableCell>Phone</TableCell>
-                <TableCell>Registration date</TableCell>
+                <TableCell>생년월일</TableCell>
+                <TableCell>휴대폰번호</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {account.slice(0, limit).map((account) => (
+              {accountList.slice(0, size).map((account: Account) => (
                 <TableRow
                   hover
                   key={account.id}
-                  selected={selectedCustomerIds.indexOf(account.id) !== -1}
+                  selected={selectedIdList.indexOf(account.id) !== -1}
                 >
                   <TableCell padding="checkbox">
                     <Checkbox
-                      checked={selectedCustomerIds.indexOf(account.id) !== -1}
+                      checked={selectedIdList.indexOf(account.id) !== -1}
                       onChange={(event) => handleSelectOne(event, account.id)}
                       value="true"
                     />
@@ -115,22 +157,14 @@ export const AccountList = ({ account = [], ...rest }) => {
                         display: "flex",
                       }}
                     >
-                      {/*<Avatar src={account.avatarUrl} sx={{ mr: 2 }}>
-                        {getInitials(account.name)}
-                      </Avatar>*/}
                       <Typography color="textPrimary" variant="body1">
-                        {account.name}
+                        {account.username}
                       </Typography>
                     </Box>
                   </TableCell>
                   <TableCell>{account.email}</TableCell>
-                  <TableCell>
-                    {/*{`${account.address.city}, ${account.address.state}, ${account.address.country}`}*/}
-                  </TableCell>
+                  <TableCell>{account.birth}</TableCell>
                   <TableCell>{account.phone}</TableCell>
-                  <TableCell>
-                    {/*{format(account.createdAt, "dd/MM/yyyy")}*/}
-                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -139,11 +173,11 @@ export const AccountList = ({ account = [], ...rest }) => {
       </PerfectScrollbar>
       <TablePagination
         component="div"
-        count={account.length}
+        count={accountList.length}
         onPageChange={handlePageChange}
-        onRowsPerPageChange={handleLimitChange}
+        onRowsPerPageChange={handleSizeChange}
         page={page}
-        rowsPerPage={limit}
+        rowsPerPage={size}
         rowsPerPageOptions={[5, 10, 25]}
       />
     </Card>

@@ -16,7 +16,7 @@ const accountSlice = createSlice({
   reducers: {},
   extraReducers: (builder) =>
     builder
-      //이메일 중복체크
+      //회원목록
       .addCase(getList.pending, (state) => {
         state.getListDone = false;
         state.getListLoading = true;

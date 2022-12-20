@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { login, join, reissueToken } from "../actions/auth";
+import { login, reissueToken } from "../actions/auth";
 
 // 기본 state
 export const initialState = {
@@ -7,9 +7,6 @@ export const initialState = {
   loginLoading: false,
   loginDone: false,
   loginError: null,
-  joinLoading: false,
-  joinDone: false,
-  joinError: null,
   reissueTokenInfo: null,
   reissueTokenLoading: false,
   reissueTokenDone: false,
@@ -26,9 +23,6 @@ const authSlice = createSlice({
       state.loginInfo = null;
       localStorage.removeItem("comporest_auth");
     },
-    joinDone(state) {
-      state.joinDone = false;
-    },
   },
   extraReducers: (builder) =>
     builder
@@ -42,11 +36,11 @@ const authSlice = createSlice({
         state.loginLoading = false;
         state.loginInfo = action.payload.resultData;
         console.log("login: ", action.payload.resultData);
-        if (localStorage.getItem("camporest_auth_admin")) {
-          localStorage.removeItem("camporest_auth_admin");
+        if (localStorage.getItem("camporest_auth")) {
+          localStorage.removeItem("camporest_auth");
         }
         localStorage.setItem(
-          "camporest_auth_admin",
+          "camporest_auth",
           JSON.stringify(action.payload.resultData)
         );
         state.loginDone = true;
@@ -65,11 +59,11 @@ const authSlice = createSlice({
         state.reissueTokenLoading = false;
         state.reissueTokenInfo = action.payload.resultData;
         console.log("reissueToken: ", action.payload.resultData);
-        if (localStorage.getItem("camporest_auth_admin")) {
-          localStorage.removeItem("camporest_auth_admin");
+        if (localStorage.getItem("camporest_auth")) {
+          localStorage.removeItem("camporest_auth");
         }
         localStorage.setItem(
-          "camporest_auth_admin",
+          "camporest_auth",
           JSON.stringify(action.payload.resultData)
         );
         state.reissueTokenDone = true;

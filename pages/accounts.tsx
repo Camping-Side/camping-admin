@@ -13,7 +13,6 @@ const Page = () => {
   const { accountData } = useSelector((state: any) => state.account);
 
   useEffect(() => {
-    // @ts-ignore
     dispatch(
       getList({
         size: 10,
@@ -37,7 +36,7 @@ const Page = () => {
         <Container maxWidth={false}>
           <CustomerListToolbar />
           <Box sx={{ mt: 3 }}>
-            <AccountList account={accountData.content} />
+            <AccountList accountData={accountData} />
           </Box>
         </Container>
       </Box>
