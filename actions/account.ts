@@ -7,7 +7,7 @@ export const getList = createAsyncThunk(
   "account/getList",
   async (data, { rejectWithValue }) => {
     try {
-      const response = await axios.get(BASE_URL + "/api/v1/admin/accounts", {
+      const response = await axios.get(BASE_URL + "/api/v1/accounts", {
         params: data,
       });
       return response.data;

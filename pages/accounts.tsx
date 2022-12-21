@@ -1,26 +1,10 @@
 import Head from "next/head";
 import { Box, Container } from "@mui/material";
-import { AccountList } from "../components/customer/accountList";
-import { CustomerListToolbar } from "../components/customer/customer-list-toolbar";
+import { AccountsList } from "../components/accounts/accountsList";
+import { AccountsListToolbar } from "../components/accounts/accountsListToolbar";
 import { DashboardLayout } from "../components/dashboard-layout";
-import { customers } from "../__mocks__/customers";
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { getList } from "../actions/account";
 
 const Page = () => {
-  const dispatch = useDispatch();
-  const { accountData } = useSelector((state: any) => state.account);
-
-  useEffect(() => {
-    dispatch(
-      getList({
-        size: 10,
-        page: 1,
-      })
-    );
-  }, []);
-
   return (
     <>
       <Head>
@@ -34,9 +18,9 @@ const Page = () => {
         }}
       >
         <Container maxWidth={false}>
-          <CustomerListToolbar />
+          <AccountsListToolbar />
           <Box sx={{ mt: 3 }}>
-            <AccountList accountData={accountData} />
+            <AccountsList />
           </Box>
         </Container>
       </Box>
@@ -44,6 +28,6 @@ const Page = () => {
   );
 };
 
-Page.getLayout = (page) => <DashboardLayout>{page}</DashboardLayout>;
+Page.getLayout = (page: any) => <DashboardLayout>{page}</DashboardLayout>;
 
 export default Page;

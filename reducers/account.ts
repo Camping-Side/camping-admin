@@ -5,15 +5,33 @@ import { getList } from "../actions/account";
 export const initialState = {
   getListLoading: false,
   getListDone: false,
-  accountData: false,
+  accountResData: false,
   getListError: null,
+  accountReqData: {
+    keyword: null,
+    page: 0,
+    size: 10,
+  },
 };
 
 // toolkit 사용방법
 const accountSlice = createSlice({
   name: "account",
   initialState,
-  reducers: {},
+  reducers: {
+    resetGetListDone(state) {
+      console.log("state: ", state);
+      state.getListDone = false;
+    },
+    setRequestParam(state, param) {
+      console.log("state: ", state);
+      console.log("param: ", param);
+      state.accountReqData = {
+        ...state.accountReqData,
+        ...param,
+      };
+    },
+  },
   extraReducers: (builder) =>
     builder
       //회원목록
@@ -24,7 +42,7 @@ const accountSlice = createSlice({
       })
       .addCase(getList.fulfilled, (state, action) => {
         state.getListLoading = false;
-        state.accountData = action.payload.resultData;
+        state.accountResData = action.payload.resultData;
         state.getListDone = true;
       })
       .addCase(getList.rejected, (state: any, action) => {
