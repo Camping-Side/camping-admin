@@ -1,14 +1,16 @@
 import Head from "next/head";
-import { Box, Container } from "@mui/material";
+import { Box, Button, Container, Typography } from "@mui/material";
 import { AccountsList } from "../components/accounts/accountsList";
-import { AccountsListToolbar } from "../components/accounts/accountsListToolbar";
 import { DashboardLayout } from "../components/dashboard-layout";
+import { Upload as UploadIcon } from "../icons/upload";
+import { Download as DownloadIcon } from "../icons/download";
+import { BasicSearchBar } from "@cp/common/BasicSearchBar";
 
 const Page = () => {
   return (
     <>
       <Head>
-        <title>회원관리 | Material Kit</title>
+        <title>회원관리</title>
       </Head>
       <Box
         component="main"
@@ -18,7 +20,45 @@ const Page = () => {
         }}
       >
         <Container maxWidth={false}>
-          <AccountsListToolbar />
+          <Box>
+            <Box
+              sx={{
+                alignItems: "center",
+                display: "flex",
+                justifyContent: "space-between",
+                flexWrap: "wrap",
+                m: -1,
+              }}
+            >
+              <Typography sx={{ m: 1 }} variant="h4">
+                회원관리
+              </Typography>
+              <Box sx={{ m: 1 }}>
+                <Button
+                  startIcon={<UploadIcon fontSize="small" />}
+                  sx={{ mr: 1 }}
+                >
+                  Import
+                </Button>
+                <Button
+                  startIcon={<DownloadIcon fontSize="small" />}
+                  sx={{ mr: 1 }}
+                >
+                  Export
+                </Button>
+                <Button color="primary" variant="contained">
+                  Add Customers
+                </Button>
+              </Box>
+            </Box>
+            <BasicSearchBar
+              textField={{
+                isShow: true,
+                placeholder: "email or 이름으로 검색해주세요.",
+              }}
+              showDatePicker={true}
+            />
+          </Box>
           <Box sx={{ mt: 3 }}>
             <AccountsList />
           </Box>

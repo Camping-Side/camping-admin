@@ -19,9 +19,10 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     logout(state) {
-      state.loginDone = false;
+      console.log("state: ", state);
+      /*state.loginDone = false;
       state.loginInfo = null;
-      localStorage.removeItem("comporest_auth");
+      localStorage.removeItem("comporest_auth");*/
     },
   },
   extraReducers: (builder) =>

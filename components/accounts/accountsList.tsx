@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useState } from "react";
+import React, { ChangeEvent, useEffect } from "react";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import {
   Box,
@@ -14,78 +14,58 @@ import {
 import { getList } from "../../actions/account";
 import { useDispatch, useSelector } from "react-redux";
 import accountSlice from "@reducers/account";
-
-type AccountData = {
-  content: [];
-  pageable: object;
-  last: boolean;
-  totalPages: number;
-  totalElements: number;
-  size: number;
-  number: number;
-  sort: object;
-  first: boolean;
-  numberOfElements: number;
-  empty: boolean;
-};
-
-type Account = {
-  id: string | never;
-  username: string;
-  phone: string;
-  email: string;
-  birth: string;
-};
+import { ReqDto, ResDto, Account } from "../../type/accounts/accounts";
 
 export const AccountsList = ({ ...rest }) => {
   const dispatch = useDispatch();
-  /*const { accountResData, getListDone, accountReqData } = useSelector(
-    (state: any) => state.account
-  );*/
 
-  const accountResData = useSelector(
+  const accountResData: ResDto = useSelector(
     (state: any) => state.account.accountResData
   );
-  console.log("accountResData");
-  //const [totalCnt, setTotalCnt] = useState(0);
+  const accountReqData: ReqDto = useSelector(
+    (state: any) => state.account.accountReqData
+  );
+  const getListDone: boolean = useSelector(
+    (state: any) => state.account.getListDone
+  );
 
-  /*const dispatchGetList = (param) => {
+  const dispatchGetList = (param: ReqDto) => {
     dispatch(getList(param));
-  };*/
+  };
 
-  //mounted
+  const { resetGetListDone, setAccountReqData } = accountSlice.actions;
+
   useEffect(() => {
-    dispatch(getList({ page: 1, size: 10 }));
-    //dispatchGetList(accountReqData);
-  }, []);
+    dispatchGetList(accountReqData);
+  }, [accountReqData]);
 
-  /*useEffect(() => {
+  useEffect(() => {
     if (getListDone) {
-      setAccountList(accountResData.content);
-      setTotalCnt(accountResData.totalElements);
-      accountSlice.actions.resetGetListDone();
+      dispatch(resetGetListDone());
     }
-  }, [getListDone]);*/
+  }, [getListDone]);
 
-  /*const handleSizeChange = (
+  const handleSizeChange = (
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const newSize = Number(event.target.value);
-    accountSlice.actions.setRequestParam({
-      size: newSize,
-    });
-    //dispatchGetList(accountReqData);
+    dispatch(
+      setAccountReqData({
+        size: newSize,
+      })
+    );
   };
 
   const handlePageChange = (
     event: React.MouseEvent<HTMLButtonElement> | null,
     newPage: number
   ) => {
-    accountSlice.actions.setRequestParam({
-      page: newPage,
-    });
-    //dispatchGetList(accountReqData);
-  };*/
+    dispatch(
+      setAccountReqData({
+        page: newPage,
+      })
+    );
+  };
 
   return (
     <Card {...rest}>
@@ -102,45 +82,43 @@ export const AccountsList = ({ ...rest }) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {/*{accountList
-                .slice(0, accountResData.size)
-                .map((account: Account, index: number) => (
-                  <TableRow hover key={account.id}>
-                    <TableCell>{totalCnt - index}</TableCell>
-                    <TableCell>
-                      <Box
-                        sx={{
-                          alignItems: "center",
-                          display: "flex",
-                        }}
-                      >
-                        <Typography color="textPrimary" variant="body1">
-                          {account.username}
-                        </Typography>
-                      </Box>
-                    </TableCell>
-                    <TableCell>{account.email}</TableCell>
-                    <TableCell>{account.birth}</TableCell>
-                    <TableCell>{account.phone}</TableCell>
-                  </TableRow>
-                ))}*/}
+              {accountResData.content.map((account: Account, index: number) => (
+                <TableRow hover key={account.id}>
+                  <TableCell>
+                    {accountResData.totalElements -
+                      index -
+                      accountResData.number * accountResData.size}
+                  </TableCell>
+                  <TableCell>
+                    <Box
+                      sx={{
+                        alignItems: "center",
+                        display: "flex",
+                      }}
+                    >
+                      <Typography color="textPrimary" variant="body1">
+                        {account.username}
+                      </Typography>
+                    </Box>
+                  </TableCell>
+                  <TableCell>{account.email}</TableCell>
+                  <TableCell>{account.birth}</TableCell>
+                  <TableCell>{account.phone}</TableCell>
+                </TableRow>
+              ))}
             </TableBody>
           </Table>
         </Box>
       </PerfectScrollbar>
-      {/*<TablePagination
+      <TablePagination
         component="div"
-        count={totalCnt}
+        count={accountResData.totalElements}
         onPageChange={handlePageChange}
         onRowsPerPageChange={handleSizeChange}
         page={accountReqData.page}
         rowsPerPage={accountReqData.size}
         rowsPerPageOptions={[5, 10, 20]}
-      />*/}
+      />
     </Card>
   );
 };
-
-/*AccountList.propTypes = {
-  customers: PropTypes.array.isRequired,
-};*/

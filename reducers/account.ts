@@ -1,16 +1,27 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { getList } from "../actions/account";
+import { reqDto } from "../dto/common/reqDto";
 
 // 기본 state
 export const initialState = {
   getListLoading: false,
   getListDone: false,
-  accountResData: false,
+  accountResData: {
+    content: [],
+    pageable: {},
+    last: false,
+    totalPages: 0,
+    totalElements: 0,
+    size: 10,
+    number: 0,
+    sort: {},
+    first: false,
+    numberOfElements: 0,
+    empty: false,
+  },
   getListError: null,
   accountReqData: {
-    keyword: null,
-    page: 0,
-    size: 10,
+    ...reqDto,
   },
 };
 
@@ -20,15 +31,12 @@ const accountSlice = createSlice({
   initialState,
   reducers: {
     resetGetListDone(state) {
-      console.log("state: ", state);
       state.getListDone = false;
     },
-    setRequestParam(state, param) {
-      console.log("state: ", state);
-      console.log("param: ", param);
+    setAccountReqData(state, action) {
       state.accountReqData = {
         ...state.accountReqData,
-        ...param,
+        ...action.payload,
       };
     },
   },
