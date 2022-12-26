@@ -16,7 +16,7 @@ import { useDispatch, useSelector } from "react-redux";
 import accountSlice from "@reducers/account";
 import { ReqDto, ResDto, Account } from "../../type/accounts/accounts";
 
-export const AccountsList = ({ ...rest }) => {
+export const AccountsList = (props: any) => {
   const dispatch = useDispatch();
 
   const accountResData: ResDto = useSelector(
@@ -68,7 +68,7 @@ export const AccountsList = ({ ...rest }) => {
   };
 
   return (
-    <Card {...rest}>
+    <Card>
       <PerfectScrollbar>
         <Box sx={{ minWidth: 1050 }}>
           <Table>

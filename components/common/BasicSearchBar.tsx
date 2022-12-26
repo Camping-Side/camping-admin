@@ -1,138 +1,162 @@
 import {
   Box,
+  Button,
   Card,
   CardContent,
+  Divider,
   Grid,
   InputAdornment,
   SvgIcon,
   TextField,
+  Typography,
 } from "@mui/material";
 import { Search as SearchIcon } from "../../icons/search";
 import { useState } from "react";
-import { Dayjs } from "dayjs";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import React from "react";
+import { Dayjs } from "dayjs";
 
 export const BasicSearchBar = (props: any) => {
-  console.log("props: ", props);
+  const [keyword, setKeyword] = useState("");
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
 
-  const [value, setValue] = useState();
-  const [values, setValues] = useState();
+  const converDayjsToString = () => {
+    if (!startDate || !endDate) return {};
+    const startDateObject = startDate.toDate();
+    const startDateString =
+      "" +
+      startDateObject.getFullYear() +
+      (startDateObject.getMonth() + 1) +
+      startDateObject.getDate();
 
-  const handleChange = () => {};
+    const endDateObject = endDate.toDate();
+    const endDateString =
+      "" +
+      endDateObject.getFullYear() +
+      (endDateObject.getMonth() + 1) +
+      endDateObject.getDate();
+    return {
+      startDate: startDateString,
+      endDate: endDateString,
+    };
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    if (e.key === "Enter" && keyword !== "") {
+      const param = {
+        keyword: keyword,
+        ...converDayjsToString(),
+      };
+      props.action(param);
+    }
+  };
+
+  const handleOnClick = () => {
+    const param = {
+      keyword: keyword,
+      ...converDayjsToString(),
+    };
+    props.action(param);
+  };
 
   return (
     <Box sx={{ mt: 3 }}>
       <Card>
         <CardContent>
-          <Grid container spacing={3}>
-            <Grid item md={6} xs={12}>
-              <TextField
-                fullWidth
-                helperText="Please specify the first name"
-                label="First name"
-                name="firstName"
-                onChange={handleChange}
-                required
-                value={values}
-                variant="outlined"
-              />
+          <Box sx={{ mb: 4 }}>
+            <Grid container spacing={3}>
+              {props.textField.isShow && (
+                <>
+                  <Grid item md={1} xs={12}>
+                    <Typography mt={2} align={"center"}>
+                      검색
+                    </Typography>
+                  </Grid>
+                  <Grid item md={5} xs={12}>
+                    <TextField
+                      fullWidth
+                      InputProps={{
+                        startAdornment: (
+                          <InputAdornment position="start">
+                            <SvgIcon color="action" fontSize="small">
+                              <SearchIcon />
+                            </SvgIcon>
+                          </InputAdornment>
+                        ),
+                      }}
+                      onChange={(e) => {
+                        setKeyword(e.target.value);
+                      }}
+                      placeholder={props.textField.placeholder}
+                      variant="outlined"
+                      onKeyDown={handleKeyDown}
+                    />
+                  </Grid>
+                  <Grid item md={6}></Grid>
+                </>
+              )}
+              {props.datePicker.isShow && (
+                <>
+                  <Grid item md={1} xs={12}>
+                    <Typography mt={2} align={"center"}>
+                      시작일
+                    </Typography>
+                  </Grid>
+                  <Grid item md={2} xs={12}>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <DatePicker
+                        views={["year", "month", "day"]}
+                        label="시작일 선택"
+                        value={startDate}
+                        onChange={(value) => {
+                          setStartDate(value);
+                        }}
+                        renderInput={(params) => {
+                          params.error = false;
+                          return <TextField {...params} />;
+                        }}
+                      />
+                    </LocalizationProvider>
+                  </Grid>
+                  <Grid item md={1} xs={12}>
+                    <Typography mt={2} align={"center"}>
+                      종료일
+                    </Typography>
+                  </Grid>
+                  <Grid item md={2} xs={12}>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <DatePicker
+                        views={["year", "month", "day"]}
+                        label="종료일 선택"
+                        value={endDate}
+                        onChange={(value) => {
+                          setEndDate(value);
+                        }}
+                        renderInput={(params) => {
+                          params.error = false;
+                          return <TextField {...params} />;
+                        }}
+                      />
+                    </LocalizationProvider>
+                  </Grid>
+                </>
+              )}
             </Grid>
-            <Grid item md={6} xs={12}>
-              <TextField
-                fullWidth
-                label="Last name"
-                name="lastName"
-                onChange={handleChange}
-                required
-                value={values}
-                variant="outlined"
-              />
-            </Grid>
-            <Grid item md={6} xs={12}>
-              <TextField
-                fullWidth
-                label="Email Address"
-                name="email"
-                onChange={handleChange}
-                required
-                value={values}
-                variant="outlined"
-              />
-            </Grid>
-            <Grid item md={6} xs={12}>
-              <TextField
-                fullWidth
-                label="Phone Number"
-                name="phone"
-                onChange={handleChange}
-                type="number"
-                value={values}
-                variant="outlined"
-              />
-            </Grid>
-            <Grid item md={6} xs={12}>
-              <TextField
-                fullWidth
-                label="Country"
-                name="country"
-                onChange={handleChange}
-                required
-                value={values}
-                variant="outlined"
-              />
-            </Grid>
-            <Grid item md={6} xs={12}>
-              <TextField
-                fullWidth
-                label="Select State"
-                name="state"
-                onChange={handleChange}
-                required
-                select
-                SelectProps={{ native: true }}
-                value={values}
-                variant="outlined"
-              >
-                {/*{states.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}*/}
-              </TextField>
-            </Grid>
-          </Grid>
-          <Box sx={{ maxWidth: 500 }}>
-            {props.textField.isShow && (
-              <TextField
-                fullWidth
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <SvgIcon color="action" fontSize="small">
-                        <SearchIcon />
-                      </SvgIcon>
-                    </InputAdornment>
-                  ),
-                }}
-                placeholder={props.textField.placeholder}
-                variant="outlined"
-              />
-            )}
           </Box>
-          <Box sx={{ maxWidth: 500 }}>
-            시작일:
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DatePicker
-                label="Basic example"
-                value={value}
-                onChange={(newValue) => {
-                  setValue(newValue);
-                }}
-                renderInput={(params) => <TextField {...params} />}
-              />
-            </LocalizationProvider>
+          <Divider />
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "flex-end",
+              mt: 3,
+            }}
+          >
+            <Button color="primary" variant="contained" onClick={handleOnClick}>
+              검색
+            </Button>
           </Box>
         </CardContent>
       </Card>
