@@ -16,14 +16,13 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import React from "react";
-import { Dayjs } from "dayjs";
 
 export const BasicSearchBar = (props: any) => {
   const [keyword, setKeyword] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
 
-  const converDayjsToString = () => {
+  const convertDayjsToString = () => {
     if (!startDate || !endDate) return {};
     const startDateObject = startDate.toDate();
     const startDateString =
@@ -48,16 +47,16 @@ export const BasicSearchBar = (props: any) => {
     if (e.key === "Enter" && keyword !== "") {
       const param = {
         keyword: keyword,
-        ...converDayjsToString(),
+        ...convertDayjsToString(),
       };
       props.action(param);
     }
   };
 
-  const handleOnClick = () => {
+  const handleOnSubmit = () => {
     const param = {
       keyword: keyword,
-      ...converDayjsToString(),
+      ...convertDayjsToString(),
     };
     props.action(param);
   };
@@ -108,7 +107,6 @@ export const BasicSearchBar = (props: any) => {
                   <Grid item md={2} xs={12}>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                       <DatePicker
-                        views={["year", "month", "day"]}
                         label="시작일 선택"
                         value={startDate}
                         onChange={(value) => {
@@ -129,7 +127,6 @@ export const BasicSearchBar = (props: any) => {
                   <Grid item md={2} xs={12}>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                       <DatePicker
-                        views={["year", "month", "day"]}
                         label="종료일 선택"
                         value={endDate}
                         onChange={(value) => {
@@ -154,7 +151,11 @@ export const BasicSearchBar = (props: any) => {
               mt: 3,
             }}
           >
-            <Button color="primary" variant="contained" onClick={handleOnClick}>
+            <Button
+              color="primary"
+              variant="contained"
+              onClick={handleOnSubmit}
+            >
               검색
             </Button>
           </Box>

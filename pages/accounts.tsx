@@ -5,19 +5,14 @@ import { DashboardLayout } from "../components/dashboard-layout";
 import { Upload as UploadIcon } from "../icons/upload";
 import { Download as DownloadIcon } from "../icons/download";
 import { BasicSearchBar } from "@cp/common/BasicSearchBar";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { ReqDto } from "../type/accounts/accounts";
 import accountSlice from "@reducers/account";
-import { getList } from "../actions/account";
 
 const Page = () => {
   const dispatch = useDispatch();
 
   const { setAccountReqData } = accountSlice.actions;
-
-  const accountReqData: ReqDto = useSelector(
-    (state: any) => state.account.accountReqData
-  );
 
   const setReqDto = (reqDto: ReqDto) => {
     dispatch(setAccountReqData(reqDto));

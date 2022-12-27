@@ -24,4 +24,6 @@ export type Account = {
   phone: string;
   email: string;
   birth: string;
+  market_agree: number;
+  activated: boolean;
 };

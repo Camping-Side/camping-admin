@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import {
   Box,
@@ -14,9 +14,48 @@ import {
 import { getList } from "../../actions/account";
 import { useDispatch, useSelector } from "react-redux";
 import accountSlice from "@reducers/account";
-import { ReqDto, ResDto, Account } from "../../type/accounts/accounts";
+import { Account, ReqDto, ResDto } from "../../type/accounts/accounts";
+import styled from "@emotion/styled";
+import { birthFilter, phoneFilter } from "../../util/commonFilter";
+import { AccountsDialog } from "@cp/accounts/accountsDialog";
+
+const DialogTableCell = styled(TableCell)`
+  cursor: pointer;
+`;
 
 export const AccountsList = (props: any) => {
+  //dialog
+  const [open, setOpen] = useState(false);
+  const [selectedAccount, setSelectedAccount] = useState({
+    id: "",
+    username: "",
+    phone: "",
+    email: "",
+    birth: "",
+    market_agree: 0,
+    activated: false,
+  });
+  const [newActivatedValue, setNewActivatedValue] = useState(false);
+
+  const handleClickOpenDialog = (account: Account) => {
+    setSelectedAccount(account);
+    setNewActivatedValue(account.activated ? 1 : 0);
+    setOpen(true);
+  };
+
+  const handleClickCloseDialog = () => {
+    setSelectedAccount({
+      id: "",
+      username: "",
+      phone: "",
+      email: "",
+      birth: "",
+      market_agree: 0,
+      activated: false,
+    });
+    setOpen(false);
+  };
+
   const dispatch = useDispatch();
 
   const accountResData: ResDto = useSelector(
@@ -75,6 +114,7 @@ export const AccountsList = (props: any) => {
             <TableHead>
               <TableRow>
                 <TableCell>번호</TableCell>
+                <TableCell>활성여부</TableCell>
                 <TableCell>이름</TableCell>
                 <TableCell>Email</TableCell>
                 <TableCell>생년월일</TableCell>
@@ -89,21 +129,30 @@ export const AccountsList = (props: any) => {
                       index -
                       accountResData.number * accountResData.size}
                   </TableCell>
-                  <TableCell>
+                  <TableCell>{account.activated ? "O" : "X"}</TableCell>
+                  <DialogTableCell
+                    onClick={() => {
+                      handleClickOpenDialog(account);
+                    }}
+                  >
                     <Box
                       sx={{
                         alignItems: "center",
                         display: "flex",
                       }}
                     >
-                      <Typography color="textPrimary" variant="body1">
+                      <Typography
+                        color="blue"
+                        sx={{ textDecoration: "underline" }}
+                        variant="body1"
+                      >
                         {account.username}
                       </Typography>
                     </Box>
-                  </TableCell>
+                  </DialogTableCell>
                   <TableCell>{account.email}</TableCell>
-                  <TableCell>{account.birth}</TableCell>
-                  <TableCell>{account.phone}</TableCell>
+                  <TableCell>{birthFilter(account.birth)}</TableCell>
+                  <TableCell>{phoneFilter(account.phone)}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -118,6 +167,14 @@ export const AccountsList = (props: any) => {
         page={accountReqData.page}
         rowsPerPage={accountReqData.size}
         rowsPerPageOptions={[5, 10, 20]}
+      />
+      <AccountsDialog
+        open={open}
+        setOpen={setOpen}
+        selectedAccount={selectedAccount}
+        setSelectedAccount={setSelectedAccount}
+        newActivatedValue={newActivatedValue}
+        setNewActivatedValue={setNewActivatedValue}
       />
     </Card>
   );
