@@ -1,15 +1,13 @@
 import Head from "next/head";
 import { Box, Button, Container, Typography } from "@mui/material";
-import { AccountsList } from "../components/accounts/accountsList";
-import { DashboardLayout } from "../components/dashboard-layout";
-import { Upload as UploadIcon } from "../icons/upload";
-import { Download as DownloadIcon } from "../icons/download";
+import { AccountsList } from "@cp/accounts/accountsList";
+import { DashboardLayout } from "@cp/dashboard-layout";
 import { BasicSearchBar } from "@cp/common/BasicSearchBar";
 import { useDispatch } from "react-redux";
-import { ReqDto } from "../type/accounts/accounts";
+import { ReqDto } from "../../type/common/common";
 import accountSlice from "@reducers/account";
 
-const Page = () => {
+const Index = () => {
   const dispatch = useDispatch();
 
   const { setAccountReqData } = accountSlice.actions;
@@ -45,20 +43,8 @@ const Page = () => {
                 회원관리
               </Typography>
               <Box sx={{ m: 1 }}>
-                <Button
-                  startIcon={<UploadIcon fontSize="small" />}
-                  sx={{ mr: 1 }}
-                >
-                  Import
-                </Button>
-                <Button
-                  startIcon={<DownloadIcon fontSize="small" />}
-                  sx={{ mr: 1 }}
-                >
-                  Export
-                </Button>
                 <Button color="primary" variant="contained">
-                  Add Customers
+                  + 회원추가
                 </Button>
               </Box>
             </Box>
@@ -82,6 +68,6 @@ const Page = () => {
   );
 };
 
-Page.getLayout = (page: any) => <DashboardLayout>{page}</DashboardLayout>;
+Index.getLayout = (page: any) => <DashboardLayout>{page}</DashboardLayout>;
 
-export default Page;
+export default Index;

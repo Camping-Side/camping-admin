@@ -11,60 +11,39 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import { getList } from "../../actions/account";
+import { getList } from "../../actions/product";
 import { useDispatch, useSelector } from "react-redux";
-import accountSlice from "@reducers/account";
-import { Account, ResDto } from "../../type/accounts/accounts";
+import productSlice from "@reducers/products";
+import { Product, ResDto } from "../../type/product/product";
 import { ReqDto } from "../../type/common/common";
 import styled from "@emotion/styled";
-import { birthFilter, phoneFilter } from "../../util/commonFilter";
-import { AccountsDialog } from "@cp/accounts/accountsDialog";
 
 const DialogTableCell = styled(TableCell)`
   cursor: pointer;
 `;
 
-export const AccountsList = (props: any) => {
-  //dialog
-  const [open, setOpen] = useState(false);
-  const [selectedAccount, setSelectedAccount] = useState({
-    id: "",
-    username: "",
-    phone: "",
-    email: "",
-    birth: "",
-    market_agree: 0,
-    activated: false,
-  });
-  const [newActivatedValue, setNewActivatedValue] = useState(0);
-
-  const handleClickOpenDialog = (account: Account) => {
-    setSelectedAccount(account);
-    setNewActivatedValue(account.activated ? 1 : 0);
-    setOpen(true);
-  };
-
+export const ProductsList = (props: any) => {
   const dispatch = useDispatch();
 
-  const accountResData: ResDto = useSelector(
-    (state: any) => state.account.accountResData
+  const productResData: ResDto = useSelector(
+    (state: any) => state.product.productResData
   );
-  const accountReqData: ReqDto = useSelector(
-    (state: any) => state.account.accountReqData
+  const productReqData: ReqDto = useSelector(
+    (state: any) => state.product.productReqData
   );
   const getListDone: boolean = useSelector(
-    (state: any) => state.account.getListDone
+    (state: any) => state.product.getListDone
   );
 
   const dispatchGetList = (param: ReqDto) => {
     dispatch(getList(param));
   };
 
-  const { resetGetListDone, setAccountReqData } = accountSlice.actions;
+  const { resetGetListDone, setProductReqData } = productSlice.actions;
 
   useEffect(() => {
-    dispatchGetList(accountReqData);
-  }, [accountReqData]);
+    dispatchGetList(productReqData);
+  }, [productReqData]);
 
   useEffect(() => {
     if (getListDone) {
@@ -77,7 +56,7 @@ export const AccountsList = (props: any) => {
   ) => {
     const newSize = Number(event.target.value);
     dispatch(
-      setAccountReqData({
+      setProductReqData({
         size: newSize,
       })
     );
@@ -88,7 +67,7 @@ export const AccountsList = (props: any) => {
     newPage: number
   ) => {
     dispatch(
-      setAccountReqData({
+      setProductReqData({
         page: newPage,
       })
     );
@@ -110,19 +89,15 @@ export const AccountsList = (props: any) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {accountResData.content.map((account: Account, index: number) => (
-                <TableRow hover key={account.id}>
+              {productResData.content.map((product: Product, index: number) => (
+                <TableRow hover key={product.id}>
                   <TableCell>
-                    {accountResData.totalElements -
+                    {productResData.totalElements -
                       index -
-                      accountResData.number * accountResData.size}
+                      productResData.number * productResData.size}
                   </TableCell>
-                  <TableCell>{account.activated ? "O" : "X"}</TableCell>
-                  <DialogTableCell
-                    onClick={() => {
-                      handleClickOpenDialog(account);
-                    }}
-                  >
+                  <TableCell>{product.activated ? "O" : "X"}</TableCell>
+                  <DialogTableCell>
                     <Box
                       sx={{
                         alignItems: "center",
@@ -134,13 +109,13 @@ export const AccountsList = (props: any) => {
                         sx={{ textDecoration: "underline" }}
                         variant="body1"
                       >
-                        {account.username}
+                        {product.username}
                       </Typography>
                     </Box>
                   </DialogTableCell>
-                  <TableCell>{account.email}</TableCell>
-                  <TableCell>{birthFilter(account.birth)}</TableCell>
-                  <TableCell>{phoneFilter(account.phone)}</TableCell>
+                  <TableCell>{product.email}</TableCell>
+                  <TableCell>{product.birth}</TableCell>
+                  <TableCell>{product.phone}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -149,20 +124,12 @@ export const AccountsList = (props: any) => {
       </PerfectScrollbar>
       <TablePagination
         component="div"
-        count={accountResData.totalElements}
+        count={productResData.totalElements}
         onPageChange={handlePageChange}
         onRowsPerPageChange={handleSizeChange}
-        page={accountReqData.page}
-        rowsPerPage={accountReqData.size}
+        page={productReqData.page}
+        rowsPerPage={productReqData.size}
         rowsPerPageOptions={[5, 10, 20]}
-      />
-      <AccountsDialog
-        open={open}
-        setOpen={setOpen}
-        selectedAccount={selectedAccount}
-        setSelectedAccount={setSelectedAccount}
-        newActivatedValue={newActivatedValue}
-        setNewActivatedValue={setNewActivatedValue}
       />
     </Card>
   );

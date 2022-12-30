@@ -12,7 +12,7 @@ export type ResDto = {
   empty: boolean;
 };
 
-export type Account = {
+export type Product = {
   id: string;
   username: string;
   phone: string;

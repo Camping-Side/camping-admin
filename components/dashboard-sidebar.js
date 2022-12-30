@@ -30,19 +30,14 @@ const items = [
     title: "Dashboard",
   },
   {
-    href: "/accounts",
+    href: "/account",
     icon: <UsersIcon fontSize="small" />,
     title: "회원관리",
   },
   {
-    href: "/products",
+    href: "/product",
     icon: <ShoppingBagIcon fontSize="small" />,
-    title: "Products",
-  },
-  {
-    href: "/account",
-    icon: <UserIcon fontSize="small" />,
-    title: "Account",
+    title: "상품관리",
   },
   {
     href: "/settings",
