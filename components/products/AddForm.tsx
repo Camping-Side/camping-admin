@@ -4,6 +4,7 @@ import { NameGrid } from "@cp/products/NameGrid";
 import { CategoryListGrid } from "@cp/products/CategoryListGrid";
 import { PriceGrid } from './../../components/products/PriceGrid';
 import { StockGrid } from "@cp/products/StockGrid";
+import { OptionGrid } from "./OptionGrid";
 
 export const AddForm = () => {
   const methods = useForm();
@@ -29,6 +30,9 @@ export const AddForm = () => {
           <StockGrid />
         </Box>
         <Divider />
+        <Box>
+          <OptionGrid />
+        </Box>
         <Button
           color="error"
           size="large"
