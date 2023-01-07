@@ -6,6 +6,7 @@ import { PriceGrid } from './../../components/products/PriceGrid';
 import { StockGrid } from "@cp/products/StockGrid";
 import { OptionGrid } from "./OptionGrid";
 import { ImageGrid } from './ImageGrid';
+import { InfoGrid } from './InfoGrid';
 
 export const AddForm = () => {
   const methods = useForm();
@@ -37,6 +38,10 @@ export const AddForm = () => {
         <Divider />
         <Box>
           <ImageGrid />
+        </Box>
+        <Divider />
+        <Box>
+          <InfoGrid />
         </Box>
         <Button
           color="error"
