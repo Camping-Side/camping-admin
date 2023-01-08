@@ -1,3 +1,4 @@
+import VerticalCenterGrid from "@cp/common/VerticalCenterGrid";
 import { Grid, InputAdornment, OutlinedInput, TextField } from "@mui/material";
 import { useFieldArray, useFormContext } from "react-hook-form";
 
@@ -9,7 +10,7 @@ export const OptionGrid = () => {
   })
 
   return (
-    <Grid container spacing={1}>
+    <VerticalCenterGrid container spacing={1}>
       <Grid item xs={12} sx={{fontWeight: 'bold'}}>옵션</Grid>
       <Grid item xs={2}>
         옵션 개수
@@ -30,9 +31,11 @@ export const OptionGrid = () => {
           endAdornment={<InputAdornment position="end">개</InputAdornment>}
         />
       </Grid>
-      <Grid item xs={2}>
-        옵션 입력
-      </Grid>
+      {
+        fields.length > 0 && (
+          <Grid item xs={2}>옵션 입력</Grid>
+        )
+      }
       <Grid item container spacing={1} xs={10}>
         {fields.map((field, index) => {
           return (
@@ -47,6 +50,6 @@ export const OptionGrid = () => {
           )
         })}
       </Grid>
-    </Grid>
+    </VerticalCenterGrid>
   );
 };

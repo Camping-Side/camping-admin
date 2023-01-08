@@ -8,6 +8,8 @@ import { OptionGrid } from "./OptionGrid";
 import { ImageGrid } from './ImageGrid';
 import { InfoGrid } from './InfoGrid';
 
+const StyledDivider = () => <Divider sx={{m:1}} />;
+
 export const AddForm = () => {
   const methods = useForm();
 
@@ -19,27 +21,27 @@ export const AddForm = () => {
         <Box>
           <NameGrid />
         </Box>
-        <Divider />
+        <StyledDivider />
          <Box>
           <CategoryListGrid />
         </Box>
-        <Divider />
+        <StyledDivider />
         <Box>
           <PriceGrid />
         </Box>
-        <Divider />
+        <StyledDivider />
         <Box>
           <StockGrid />
         </Box>
-        <Divider />
+        <StyledDivider />
         <Box>
           <OptionGrid />
         </Box>
-        <Divider />
+        <StyledDivider />
         <Box>
           <ImageGrid />
         </Box>
-        <Divider />
+        <StyledDivider />
         <Box>
           <InfoGrid />
         </Box>

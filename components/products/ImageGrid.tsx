@@ -1,6 +1,7 @@
 import { useFormContext } from "react-hook-form";
 import { Box, Button, Grid, ImageList, ImageListItem } from "@mui/material";
 import { ImgHTMLAttributes } from "react";
+import VerticalCenterGrid from '@cp/common/VerticalCenterGrid';
 
 const ImageBox = (props: ImgHTMLAttributes<HTMLImageElement>) => (
   <Box
@@ -20,7 +21,7 @@ export const ImageGrid = () => {
   const majorImage: FileList = watch("majorImage");
   const minorImages: FileList = watch("minorImages");
   return (
-    <Grid container spacing={1}>
+    <VerticalCenterGrid container spacing={1}>
       <Grid item xs={12} sx={{fontWeight: 'bold'}}>상품이미지</Grid>
       <Grid item xs={2}>
         대표이미지
@@ -73,6 +74,6 @@ export const ImageGrid = () => {
           </ImageList>
         }
       </Grid>
-    </Grid>
+    </VerticalCenterGrid>
   );
 };
