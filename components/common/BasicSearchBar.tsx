@@ -17,8 +17,7 @@ import { BaseDateRangePicker } from "./BaseDateRangePicker";
 
 export const BasicSearchBar = (props: any) => {
   const [keyword, setKeyword] = useState("");
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
+  const [date, setDate] = useState({ startDate: '', endDate: '' });
 
   const convertDayjsToString = () => {
     if (!startDate || !endDate) return {};
@@ -97,10 +96,8 @@ export const BasicSearchBar = (props: any) => {
               )}
               {props.datePicker.isShow && (
                 <BaseDateRangePicker
-                  startDate={startDate}
-                  setStartDate={setStartDate}
-                  endDate={endDate}
-                  setEndDate={setEndDate}
+                  value={date}
+                  onChange={(value) => setDate(value)}
                 />
               )}
             </Grid>

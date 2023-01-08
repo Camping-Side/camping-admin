@@ -10,8 +10,36 @@ import { InfoGrid } from './InfoGrid';
 
 const StyledDivider = () => <Divider sx={{m:1}} />;
 
+const defaultValues = {
+  productName: '',      // 상품명
+  category: '',         // 카테고리
+  price: 0,             // 판매가
+  discount: {
+    isActive: false,    // 활성화 여부
+    value: {
+      price: 0,           // 할인가
+      type: 'all',        // 할인 타입
+    }
+  },
+  dateRange: {
+    isActive: false,    // 활성화 여부
+    value: {
+      startDate: null,  // 판매시작일
+      endDate: null,    // 판매종료일
+    },
+  },
+  texType: 'taxable',   // 부가세
+  stock: 0,             // 재고수량
+  options: [],          // 옵션
+  majorImage: {},       // 대표 이미지
+  minorImages: {},      // 추가 이미지
+  info: ''              // 상품 상세 설명
+};
+
 export const AddForm = () => {
-  const methods = useForm();
+  const methods = useForm({
+    defaultValues,
+  });
 
   const onSubmit = (data: any) => console.log(data);
 
