@@ -11,7 +11,7 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import { getList } from "../../actions/account";
+import { getList, getDetail } from "../../actions/account";
 import { useDispatch, useSelector } from "react-redux";
 import accountSlice from "@reducers/account";
 import { Account, ResDto } from "../../type/accounts/accounts";
@@ -27,22 +27,6 @@ const DialogTableCell = styled(TableCell)`
 export const AccountsList = (props: any) => {
   //dialog
   const [open, setOpen] = useState(false);
-  const [selectedAccount, setSelectedAccount] = useState({
-    id: "",
-    username: "",
-    phone: "",
-    email: "",
-    birth: "",
-    market_agree: 0,
-    activated: false,
-  });
-  const [newActivatedValue, setNewActivatedValue] = useState(0);
-
-  const handleClickOpenDialog = (account: Account) => {
-    setSelectedAccount(account);
-    setNewActivatedValue(account.activated ? 1 : 0);
-    setOpen(true);
-  };
 
   const dispatch = useDispatch();
 
@@ -55,12 +39,24 @@ export const AccountsList = (props: any) => {
   const getListDone: boolean = useSelector(
     (state: any) => state.account.getListDone
   );
+  const getDetailDone: boolean = useSelector(
+    (state: any) => state.account.getDetailDone
+  );
 
   const dispatchGetList = (param: ReqDto) => {
     dispatch(getList(param));
   };
 
-  const { resetGetListDone, setAccountReqData } = accountSlice.actions;
+  const dispatchGetDetail = (id: string) => {
+    dispatch(getDetail(id));
+  };
+
+  const handleClickOpenDialog = () => {
+    setOpen(true);
+  };
+
+  const { resetGetListDone, setAccountReqData, resetGetDetailDone } =
+    accountSlice.actions;
 
   useEffect(() => {
     dispatchGetList(accountReqData);
@@ -70,7 +66,11 @@ export const AccountsList = (props: any) => {
     if (getListDone) {
       dispatch(resetGetListDone());
     }
-  }, [getListDone]);
+    if (getDetailDone) {
+      handleClickOpenDialog();
+      dispatch(resetGetDetailDone());
+    }
+  }, [getListDone, getDetailDone]);
 
   const handleSizeChange = (
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -120,7 +120,7 @@ export const AccountsList = (props: any) => {
                   <TableCell>{account.activated ? "O" : "X"}</TableCell>
                   <DialogTableCell
                     onClick={() => {
-                      handleClickOpenDialog(account);
+                      dispatchGetDetail(account.id);
                     }}
                   >
                     <Box
@@ -156,14 +156,7 @@ export const AccountsList = (props: any) => {
         rowsPerPage={accountReqData.size}
         rowsPerPageOptions={[5, 10, 20]}
       />
-      <AccountsDialog
-        open={open}
-        setOpen={setOpen}
-        selectedAccount={selectedAccount}
-        setSelectedAccount={setSelectedAccount}
-        newActivatedValue={newActivatedValue}
-        setNewActivatedValue={setNewActivatedValue}
-      />
+      {open && <AccountsDialog open={open} setOpen={setOpen} />}
     </Card>
   );
 };

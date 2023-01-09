@@ -42,11 +42,11 @@ const Index = () => {
               <Typography sx={{ m: 1 }} variant="h4">
                 회원관리
               </Typography>
-              <Box sx={{ m: 1 }}>
+              {/*<Box sx={{ m: 1 }}>
                 <Button color="primary" variant="contained">
                   + 회원추가
                 </Button>
-              </Box>
+              </Box>*/}
             </Box>
             <BasicSearchBar
               textField={{

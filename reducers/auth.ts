@@ -19,10 +19,9 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     logout(state) {
-      console.log("state: ", state);
-      /*state.loginDone = false;
+      state.loginDone = false;
       state.loginInfo = null;
-      localStorage.removeItem("comporest_auth");*/
+      localStorage.removeItem("camporest_admin_auth");
     },
   },
   extraReducers: (builder) =>
@@ -37,11 +36,11 @@ const authSlice = createSlice({
         state.loginLoading = false;
         state.loginInfo = action.payload.resultData;
         console.log("login: ", action.payload.resultData);
-        if (localStorage.getItem("camporest_auth")) {
-          localStorage.removeItem("camporest_auth");
+        if (localStorage.getItem("camporest_admin_auth")) {
+          localStorage.removeItem("camporest_admin_auth");
         }
         localStorage.setItem(
-          "camporest_auth",
+          "camporest_admin_auth",
           JSON.stringify(action.payload.resultData)
         );
         state.loginDone = true;
@@ -59,12 +58,11 @@ const authSlice = createSlice({
       .addCase(reissueToken.fulfilled, (state, action) => {
         state.reissueTokenLoading = false;
         state.reissueTokenInfo = action.payload.resultData;
-        console.log("reissueToken: ", action.payload.resultData);
-        if (localStorage.getItem("camporest_auth")) {
-          localStorage.removeItem("camporest_auth");
+        if (localStorage.getItem("camporest_admin_auth")) {
+          localStorage.removeItem("camporest_admin_auth");
         }
         localStorage.setItem(
-          "camporest_auth",
+          "camporest_admin_auth",
           JSON.stringify(action.payload.resultData)
         );
         state.reissueTokenDone = true;

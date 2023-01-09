@@ -1,4 +1,5 @@
 export const birthFilter = (birth: string) => {
+  if (!birth) return "";
   return (
     birth.substring(0, 4) +
     "년 " +
@@ -10,6 +11,7 @@ export const birthFilter = (birth: string) => {
 };
 
 export const phoneFilter = (phone: string) => {
+  if (!phone) return "";
   let filterdPhone = "";
   if (phone.length === 10) {
     filterdPhone =
