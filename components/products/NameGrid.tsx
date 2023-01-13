@@ -12,6 +12,7 @@ export const NameGrid = () => {
         <Controller
           name="productName"
           control={control}
+          rules={{ maxLength: 30 }}
           render={({
             field: { onChange }
           }) => (

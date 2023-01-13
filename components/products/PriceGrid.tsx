@@ -18,6 +18,7 @@ export const PriceGrid = () => {
         <Controller
           name="price"
           control={control}
+          rules={{ min: 0 }}
           render={({
             field: { onChange }
           }) => (

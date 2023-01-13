@@ -12,6 +12,7 @@ export const StockGrid = () => {
         <Controller
           name="stock"
           control={control}
+          rules={{ min: 0 }}
           render={({
             field: { onChange }
           }) => (

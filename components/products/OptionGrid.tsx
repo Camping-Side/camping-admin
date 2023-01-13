@@ -18,6 +18,7 @@ export const OptionGrid = () => {
       <Grid item xs={10}>
         <OutlinedInput
           fullWidth
+          value={fields.length}
           onChange={(e)=> {
             const newValue = Number(e.target.value);
             if(fields.length > newValue) {
