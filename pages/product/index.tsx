@@ -1,4 +1,5 @@
 import Head from "next/head";
+import Link from 'next/link'
 import { Box, Button, Container, Typography } from "@mui/material";
 import { ProductsList } from "@cp/products/productsList";
 import { DashboardLayout } from "@cp/dashboard-layout";
@@ -43,9 +44,11 @@ const Index = () => {
                 상품관리
               </Typography>
               <Box sx={{ m: 1 }}>
-                <Button color="primary" variant="contained">
-                  + 상품추가
-                </Button>
+                <Link href='/product/add'>
+                  <Button color="primary" variant="contained">
+                    + 상품추가
+                  </Button>
+                </Link>
               </Box>
             </Box>
             <BasicSearchBar
