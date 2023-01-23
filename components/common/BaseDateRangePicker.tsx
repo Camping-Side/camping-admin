@@ -1,32 +1,32 @@
-import {
-  Grid,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Grid, TextField, Typography } from "@mui/material";
 import { FC } from "react";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
 interface BaseDateRangePickerValue {
-  startDate: string | null,
-  endDate: string | null,
+  startDate: string | null;
+  endDate: string | null;
 }
 
 interface BaseDateRangePickerProps {
-  value: BaseDateRangePickerValue,
-  onChange: (value: BaseDateRangePickerValue) => void,
-};
-  
+  value: BaseDateRangePickerValue;
+  onChange: (value: BaseDateRangePickerValue) => void;
+}
+
 export const BaseDateRangePicker: FC<BaseDateRangePickerProps> = ({
   value,
   onChange,
 }) => {
-  const validDate = (newValue: BaseDateRangePickerValue): BaseDateRangePickerValue => {
-    if(!newValue.startDate || !newValue.endDate) {
+  const validDate = (
+    newValue: BaseDateRangePickerValue
+  ): BaseDateRangePickerValue => {
+    if (!newValue.startDate || !newValue.endDate) {
       return newValue;
     }
-    return newValue.startDate.toDate() <= newValue.endDate.toDate() ? newValue : value;
+    return newValue.startDate.toDate() <= newValue.endDate.toDate()
+      ? newValue
+      : value;
   };
   return (
     <>
@@ -81,4 +81,3 @@ export const BaseDateRangePicker: FC<BaseDateRangePickerProps> = ({
     </>
   );
 };
-  

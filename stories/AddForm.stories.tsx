@@ -86,3 +86,49 @@ TestNameGrid.play = async ({ canvasElement }) => {
     expect(submitData).toHaveTextContent(`"productName":""`);
   });
 };
+
+export const TestPriceGrid = TestTemplate.bind({});
+TestPriceGrid.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  const label = canvas.getAllByText("판매가")[1];
+  const inputGrid = label.nextElementSibling as HTMLElement;
+
+  if (!inputGrid) {
+    return;
+  }
+
+  const inputGridCanvas = within(inputGrid);
+  const input = inputGridCanvas.getByRole("spinbutton");
+  const submitData = document.getElementById("submitData");
+  const { submitButton, resetButton } = await getButtons(canvasElement);
+
+  const inputAndSubmit = async (value: string) => {
+    await userEvent.click(input);
+    await userEvent.clear(input);
+    await userEvent.keyboard(value);
+    await userEvent.click(submitButton);
+  };
+
+  // 1000을 입력하고 저장하면 1000이 저장되어야 한다.
+  inputAndSubmit("1000");
+
+  await waitFor(() => {
+    expect(submitData).toHaveTextContent(`"price":"1000"`);
+  });
+
+  // 취소 버튼을 누르면 0으로 초기화되어야 한다.
+  await userEvent.click(resetButton);
+  await userEvent.click(submitButton);
+
+  await waitFor(() => {
+    expect(input).toHaveValue(0);
+    expect(submitData).toHaveTextContent(`"price":0`);
+  });
+
+  // 0보다 작은 값을 입력하면 값이 저장되지 않아야 한다.(submit 결과는 이전 값이 유지되어야 한다.)
+  inputAndSubmit("-100");
+  await waitFor(() => {
+    expect(input).toHaveValue(-100);
+    expect(submitData).toHaveTextContent(`"price":0`);
+  });
+};
