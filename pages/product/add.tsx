@@ -6,9 +6,9 @@ import { ReqDto } from "../../type/common/common";
 import { AddForm } from "@cp/products/AddForm";
 
 export interface Category {
-  id: number,
-  title: string,
-  childIds: number[]
+  id: number;
+  title: string;
+  childIds: number[];
 }
 
 const Add = () => {
@@ -26,8 +26,8 @@ const Add = () => {
       >
         <Container maxWidth={false}>
           <Card>
-            <CardContent sx={{ display: 'grid', gap: 2 }}>
-              <AddForm />
+            <CardContent sx={{ display: "grid", gap: 2 }}>
+              <AddForm handleSubmit={(data) => console.log(data)} />
             </CardContent>
           </Card>
         </Container>
