@@ -15,6 +15,7 @@ const StyledDivider = () => <Divider sx={{ m: 1 }} />;
 const defaultValues = {
   productName: "", // 상품명
   category: "", // 카테고리
+  isCategoryFilterActive: false, // 카테고리 필터 활성화 여부
   price: 0, // 판매가
   discount: {
     isActive: false, // 활성화 여부
