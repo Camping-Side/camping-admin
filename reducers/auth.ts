@@ -23,6 +23,9 @@ const authSlice = createSlice({
       state.loginInfo = null;
       localStorage.removeItem("camporest_admin_auth");
     },
+    resetLoginDone(state) {
+      state.loginDone = false;
+    },
   },
   extraReducers: (builder) =>
     builder

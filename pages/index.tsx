@@ -1,10 +1,11 @@
 import Head from "next/head";
 import { Box, Button, Container, TextField, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { SubmitHandler, useForm } from "react-hook-form";
 import Router from "next/router";
 import { login } from "../actions/auth";
+import authSlice from "@reducers/auth";
 
 type Inputs = {
   email: string;
@@ -12,19 +13,10 @@ type Inputs = {
 };
 
 const Login = () => {
-  //mounted
-  useEffect(() => {
-    //remember 체크
-    if (localStorage.getItem("camporest_remember")) {
-      const rememberId = localStorage.getItem("camporest_remember") || "";
-      setValue("email", rememberId);
-      setRememberChecked(true);
-    }
-  }, []);
-
   const dispatch = useDispatch();
 
-  //react-hook-form
+  const { resetLoginDone } = authSlice.actions;
+
   const {
     register,
     handleSubmit,
@@ -35,19 +27,12 @@ const Login = () => {
     setError,
   } = useForm<Inputs>();
 
-  //remember
-  const [rememberChecked, setRememberChecked] = useState(false);
-  const checkRemember = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setRememberChecked(event.target.checked);
-  };
-
   //loginDone
   const { loginDone } = useSelector((state: any) => state.auth);
+
   useEffect(() => {
     if (loginDone) {
-      if (rememberChecked && !localStorage.getItem("camporest_remember")) {
-        localStorage.setItem("camporest_remember", watch("email"));
-      }
+      dispatch(resetLoginDone());
       Router.push("/dashboard");
     }
   }, [loginDone]);
