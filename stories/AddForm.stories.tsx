@@ -201,7 +201,7 @@ TestPriceGrid.play = async ({ canvasElement }) => {
   };
 
   // 1000을 입력하고 저장하면 1000이 저장되어야 한다.
-  inputAndSubmit("1000");
+  await inputAndSubmit("1000");
 
   await waitFor(() => {
     expect(submitData).toHaveTextContent(`"price":"1000"`);
@@ -217,7 +217,7 @@ TestPriceGrid.play = async ({ canvasElement }) => {
   });
 
   // 0보다 작은 값을 입력하면 값이 저장되지 않아야 한다.(submit 결과는 이전 값이 유지되어야 한다.)
-  inputAndSubmit("-100");
+  await inputAndSubmit("-100");
   await waitFor(() => {
     expect(input).toHaveValue(-100);
     expect(submitData).toHaveTextContent(`"price":0`);
