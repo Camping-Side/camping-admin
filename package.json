@@ -7,7 +7,9 @@
     "dev:template": "next ./src_template",
     "build": "next build",
     "start": "next start",
-    "export": "next export"
+    "export": "next export",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
   },
   "dependencies": {
     "@date-io/date-fns": "^2.16.0",
@@ -59,12 +61,25 @@
     "yup": "0.32.11"
   },
   "devDependencies": {
+    "@babel/core": "^7.20.12",
+    "@storybook/addon-actions": "^6.5.15",
+    "@storybook/addon-essentials": "^6.5.15",
+    "@storybook/addon-interactions": "^6.5.15",
+    "@storybook/addon-links": "^6.5.15",
+    "@storybook/builder-webpack4": "^6.5.15",
+    "@storybook/builder-webpack5": "^6.5.15",
+    "@storybook/jest": "^0.0.10",
+    "@storybook/manager-webpack4": "^6.5.15",
+    "@storybook/manager-webpack5": "^6.5.15",
+    "@storybook/react": "^6.5.15",
+    "@storybook/testing-library": "^0.0.13",
     "@types/node": "18.11.14",
     "@types/react": "^17.0.39",
     "@types/react-dom": "^17.0.11",
     "@types/react-redux": "^7.1.24",
     "@types/redux-logger": "^3.0.9",
     "@types/webpack": "^5.28.0",
+    "babel-loader": "^8.3.0",
     "eslint": "8.22.0",
     "fork-ts-checker-webpack-plugin": "^7.2.0",
     "html-webpack-plugin": "^5.5.0",
@@ -72,6 +87,7 @@
     "sass": "^1.56.2",
     "ts-loader": "^9.2.6",
     "ts-node": "^10.5.0",
+    "tsconfig-paths-webpack-plugin": "^4.0.0",
     "webpack": "^5.72.1",
     "webpack-cli": "^4.9.2"
   }

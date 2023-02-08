@@ -7,20 +7,21 @@ export const NameGrid = () => {
 
   return (
     <VerticalCenterGrid container spacing={1}>
-      <Grid item xs={2} sx={{ fontWeight: 'bold' }}>상품명</Grid>
+      <Grid item xs={2} sx={{ fontWeight: "bold" }}>
+        상품명
+      </Grid>
       <Grid item xs={10}>
         <Controller
           name="productName"
           control={control}
           rules={{ maxLength: 30 }}
-          render={({
-            field: { onChange }
-          }) => (
+          render={({ field }) => (
             <TextField
+              id="name"
               fullWidth
               margin="normal"
               variant="outlined"
-              onChange={onChange}
+              {...field}
             />
           )}
         />
